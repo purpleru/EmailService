@@ -26,25 +26,7 @@
         </tr>
       </tbody>
     </table>
-    <nav class="clearfix" aria-label="Page navigation">
-      <ul class="pagination pull-right">
-        <li>
-          <a href="#" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        <li><a href="#">1</a></li>
-        <li><a href="#">2</a></li>
-        <li><a href="#">3</a></li>
-        <li><a href="#">4</a></li>
-        <li><a href="#">5</a></li>
-        <li>
-          <a href="#" aria-label="Next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+
 
     <!-- Modal -->
     <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -123,7 +105,8 @@ export default {
         title: ""
       },
       editData: {},
-      services: []
+      services: [],
+      currentPage: 1
     };
   },
   methods: {
@@ -135,7 +118,7 @@ export default {
         sendName,
         user: author.user,
         password: "******"
-      }
+      };
       this.$refs.edit.modal("show");
     },
     add() {
@@ -147,14 +130,20 @@ export default {
       $(this.$refs.modal).modal("show");
     },
     getServices() {
-      this.$http.get("/user/emails").then(({ data }) => {
-        const { code, lists, msg } = data;
-        if (code !== 200) {
-          return this.$layer.msg(msg || "获取邮箱服务列表失败!");
-        }
-        this.services = lists;
-        console.log(this.services);
-      });
+      this.$http
+        .get("/user/emails", {
+          params: {
+            currentPage: this.currentPage
+          }
+        })
+        .then(({ data }) => {
+          const { code, lists, msg } = data;
+          if (code !== 200) {
+            return this.$layer.msg(msg || "获取邮箱服务列表失败!");
+          }
+          this.services = lists;
+          console.log(this.services);
+        });
     },
     async go() {
       const { title, sendName, addressee, id } = this.commit;
@@ -215,6 +204,15 @@ export default {
 </script>
 
 <style scoped>
+table {
+  table-layout: fixed;
+}
+
+table td,
+table th {
+  word-wrap: break-word;
+}
+
 .btn {
   margin-left: 10px;
 }

@@ -56,7 +56,8 @@ export default {
 
 <style scoped>
 .body {
-  margin: 0 20px;
+  /* margin: 0 20px; */
+  padding: 0 20px;
 }
 
 .link_text {
