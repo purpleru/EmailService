@@ -6,6 +6,7 @@ Vue.use(VueRouter);
 
 import Login from '../pages/login.vue';
 import User from '../pages/user.vue';
+import Register from '../pages/register.vue';
 
 import userChildren from './user';
 
@@ -18,7 +19,12 @@ const router = new VueRouter({
         {
             path: '/login',
             component: Login
-        }, {
+        },
+        {
+            path: '/register',
+            component: Register
+        },
+        {
             redirect: '/user/core',
             path: '/user',
             component: User,
