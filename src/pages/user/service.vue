@@ -106,10 +106,10 @@ export default {
       },
       editData: {},
       services: [],
-      currentPage: 1,
       page: {
-        currentPage: 2,
-        total: 2
+        pageSize: 10,
+        currentPage: 1,
+        total: 1
       }
     };
   },
@@ -137,15 +137,18 @@ export default {
       this.$http
         .get("/user/emails", {
           params: {
-            currentPage: this.currentPage
+            currentPage: this.page.currentPage,
+            pageSize: this.page.pageSize
           }
         })
         .then(({ data }) => {
-          const { code, lists, msg } = data;
+          const { code, lists, total, msg } = data;
           if (code !== 200) {
             return this.$layer.msg(msg || "获取邮箱服务列表失败!");
           }
           this.services = lists;
+          this.page.total = total;
+
           console.log(this.services);
         });
     },
@@ -197,7 +200,7 @@ export default {
       console.log(this.commit);
     },
     currentChange() {
-      console.log("currentChange");
+      this.getServices();
     }
   },
   mounted() {
