@@ -24,6 +24,7 @@ axios.interceptors.request.use(function (config) {
 axios.interceptors.response.use(function (response) {
   const { data } = response;
   if (data.code === 401) {
+    window.localStorage.removeItem('user');
     router.replace('/login');
     return new Promise(function () { });
   } else {

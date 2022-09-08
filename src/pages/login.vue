@@ -78,9 +78,10 @@ export default {
           }
         )
         .then(({ data }) => {
-          const { code, msg } = data;
-
+          const { code, msg, user } = data;
+          console.log(data);
           if (code === 200) {
+            window.localStorage.setItem("user", JSON.stringify(user));
             this.$router.replace("/user");
           } else {
             this.isDanger = true;

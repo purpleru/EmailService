@@ -5,14 +5,15 @@
         <h3 class="panel-title">我的信息：</h3>
       </div>
       <div class="panel-body">
-        Basic panel example
+        欢迎使用邮箱服务系统
       </div>
       <ul class="list-group">
-        <li class="list-group-item"><strong>账户：</strong>admin</li>
-        <li class="list-group-item"><strong>邮箱：</strong>123456@qq.com</li>
-        <li class="list-group-item"><strong>注册时间：</strong>2022/8/30 10:54</li>
-        <li class="list-group-item">Porta ac consectetur ac</li>
-        <li class="list-group-item">Vestibulum at eros</li>
+        <!-- 2022/8/30 10:54 -->
+        <li class="list-group-item"><strong>账户：</strong>{{userInfo.user}}</li>
+        <li class="list-group-item"><strong>邮箱：</strong>{{userInfo.email}}</li>
+        <li class="list-group-item"><strong>账户ID：</strong>{{userInfo._id}}</li>
+        <li class="list-group-item"><strong>注册时间：</strong>{{userInfo.registerDate}}</li>
+        <!-- <li class="list-group-item">Vestibulum at eros</li> -->
       </ul>
     </div>
 
@@ -21,7 +22,7 @@
         <h3 class="panel-title">其他信息：</h3>
       </div>
       <div class="panel-body">
-        我们
+        热爱生活，拥抱自由！
       </div>
       <div class="icons clearfix">
         <div class="icon pull-left">
@@ -29,7 +30,31 @@
             <strong>我的接口</strong>
           </div>
           <div>
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-hdd" aria-hidden="true"></span>
+          </div>
+          <div>
+            <span>{{interfaceCount}}个</span>
+          </div>
+        </div>
+
+        <div class="icon pull-left">
+          <div>
+            <strong>邮箱服务</strong>
+          </div>
+          <div>
+            <span class="glyphicon glyphicon-briefcase" aria-hidden="true"></span>
+          </div>
+          <div>
+            <span>{{serviceCount}}个</span>
+          </div>
+        </div>
+
+        <div class="icon pull-left">
+          <div>
+            <strong>我的服务</strong>
+          </div>
+          <div>
+            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>
           </div>
           <div>
             <span>0个</span>
@@ -38,37 +63,13 @@
 
         <div class="icon pull-left">
           <div>
-            <strong>邮箱服务</strong>
+            <strong>用户数量</strong>
           </div>
           <div>
-            <span class="glyphicon glyphicon-film" aria-hidden="true"></span>
+            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
           </div>
           <div>
-            <span>8个</span>
-          </div>
-        </div>
-
-        <div class="icon pull-left">
-          <div>
-            <strong>邮箱服务</strong>
-          </div>
-          <div>
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          </div>
-          <div>
-            <span>8个</span>
-          </div>
-        </div>
-
-        <div class="icon pull-left">
-          <div>
-            <strong>邮箱服务</strong>
-          </div>
-          <div>
-            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-          </div>
-          <div>
-            <span>8个</span>
+            <span>{{userCount}}个</span>
           </div>
         </div>
       </div>
@@ -83,16 +84,27 @@
 export default {
   data() {
     return {
-        userInfo:{
-
-        }
+      userInfo: {},
+      interfaceCount: 0,
+      serviceCount: 0,
+      userCount: 0
     };
   },
-  mounted() {},
+  mounted() {
+    this.getInfo();
+  },
   methods: {
     getInfo() {
-      this.$http.get("/user/info").then(res => {
-        console.log(res);
+      this.$http.get("/user/info").then(({ data }) => {
+        console.log(data);
+        const { code, msg, user, interfaceCount, serviceCount, userCount } = data;
+        if (code !== 200) {
+          return this.$layer.msg(msg || "获取信息失败!");
+        }
+        this.userInfo = user;
+        this.interfaceCount = interfaceCount;
+        this.serviceCount = serviceCount;
+        this.userCount = userCount;
       });
     }
   }
@@ -109,8 +121,8 @@ export default {
   border-bottom: 1px solid #dddddd;
 }
 
-.icon strong{
-    color: #797777;
+.icon strong {
+  color: #797777;
 }
 
 .icon:nth-child(odd) {

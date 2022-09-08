@@ -12,6 +12,10 @@ import userChildren from './user';
 const router = new VueRouter({
     routes: [
         {
+            path: '/',
+            redirect: '/user/core'
+        },
+        {
             path: '/login',
             component: Login
         }, {
@@ -23,5 +27,23 @@ const router = new VueRouter({
     ]
 });
 
+router.beforeEach(function (to, form, next) {
+    var user = window.localStorage.getItem('user');
+    try {
+        user = JSON.parse(user)
+    } catch (err) {
+        window.localStorage.removeItem('user');
+        user = null;
+    }
+    if (to.path !== '/login' && !user) {
+        next('/login');
+    } else {
+        if (to.path === '/login' && user) {
+            next('/user');
+        } else {
+            next();
+        }
+    }
+});
 
 export default router;
