@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="clearfix">
     <p>
       <button v-on:click="add" type="button" class="btn btn-primary">添加一个邮箱服务</button>
     </p>
@@ -26,8 +26,7 @@
         </tr>
       </tbody>
     </table>
-
-
+    <es-page :total="page.total" :current-page.sync="page.currentPage" @current-change="currentChange"></es-page>
     <!-- Modal -->
     <div ref="modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
       <div class="modal-dialog" role="document">
@@ -76,6 +75,7 @@
 import Joi from "joi";
 import AddService from "../../components/service/add-service";
 import EditService from "../../components/service/edit-service";
+import EsPage from "../../components/public/page.vue";
 const emailReg = /^([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
 const CommitJoiSchema = Joi.object({
   title: Joi.string()
@@ -106,7 +106,11 @@ export default {
       },
       editData: {},
       services: [],
-      currentPage: 1
+      currentPage: 1,
+      page: {
+        currentPage: 2,
+        total: 2
+      }
     };
   },
   methods: {
@@ -191,6 +195,9 @@ export default {
       });
 
       console.log(this.commit);
+    },
+    currentChange() {
+      console.log("currentChange");
     }
   },
   mounted() {
@@ -198,7 +205,8 @@ export default {
   },
   components: {
     AddService,
-    EditService
+    EditService,
+    EsPage
   }
 };
 </script>
@@ -218,6 +226,7 @@ table th {
 }
 
 .pagination {
+  float: right;
   margin: 0;
   margin-right: 10px;
 }
