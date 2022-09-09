@@ -9,7 +9,10 @@
       </div>
       <ul class="list-group">
         <!-- 2022/8/30 10:54 -->
-        <li class="list-group-item"><strong>账户：</strong>{{userInfo.user}}</li>
+        <li class="list-group-item clearfix">
+          <strong>账户：</strong>{{userInfo.user}}
+          <a type="button" class="btn btn-danger btn-xs pull-right">退出登录</a>
+        </li>
         <li class="list-group-item"><strong>邮箱：</strong>{{userInfo.email}}</li>
         <li class="list-group-item"><strong>账户ID：</strong>{{userInfo._id}}</li>
         <li class="list-group-item"><strong>注册时间：</strong>{{userInfo.registerDate}}</li>
