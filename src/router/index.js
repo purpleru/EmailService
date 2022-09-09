@@ -34,14 +34,16 @@ const router = new VueRouter({
 });
 
 router.beforeEach(function (to, form, next) {
-    var user = window.localStorage.getItem('user');
+    var user = window.localStorage.getItem('user'),
+        exclude = ['/register'];
     try {
         user = JSON.parse(user)
     } catch (err) {
         window.localStorage.removeItem('user');
         user = null;
     }
-    if (to.path !== '/login' && !user) {
+
+    if (to.path !== '/login' && !user && exclude.indexOf(to.path) === -1) {
         next('/login');
     } else {
         if (to.path === '/login' && user) {

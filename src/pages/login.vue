@@ -21,18 +21,20 @@
           </div>
           <div class="clearfix">
             <a v-on:click="login" href="javascript:;" class="btn btn-primary pull-right">登录</a>
-            <a href="javascript:;" class="btn btn-default pull-right">注册</a>
+            <a @click="register" href="javascript:;" class="btn btn-default pull-right">注册</a>
+            <!-- <router-link to="/register" class="btn btn-default pull-right">注册</router-link> -->
           </div>
         </form>
       </div>
     </div>
+    <es-register @register-success="registerSuccess" ref="register" :isShow="false"></es-register>
   </div>
 </template>
 
 <script>
 import qs from "qs";
 import md5 from "md5";
-
+import EsRegister from "./register.vue";
 export default {
   mounted() {},
   data() {
@@ -46,6 +48,21 @@ export default {
     };
   },
   methods: {
+    register() {
+      this.openIndex = this.$layer.open({
+        type: 1,
+        title: "注册账号",
+        offset: "10%",
+        area: "86%",
+        content: $(this.$refs.register.$el)
+      });
+    },
+    registerSuccess({ registerForm }) {
+      const { user, password } = registerForm;
+      this.formData.user = user;
+      this.formData.password = password;
+      this.$layer.close(this.openIndex);
+    },
     login() {
       const { user, password } = this.formData;
 
@@ -89,6 +106,9 @@ export default {
           }
         });
     }
+  },
+  components: {
+    EsRegister
   }
 };
 </script>
