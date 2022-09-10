@@ -11,7 +11,7 @@
         <!-- 2022/8/30 10:54 -->
         <li class="list-group-item clearfix">
           <strong>账户：</strong>{{userInfo.user}}
-          <a type="button" class="btn btn-danger btn-xs pull-right">退出登录</a>
+          <a @click="logout" href="javascript:;" type="button" class="btn btn-danger btn-xs pull-right">退出登录</a>
         </li>
         <li class="list-group-item"><strong>邮箱：</strong>{{userInfo.email}}</li>
         <li class="list-group-item"><strong>账户ID：</strong>{{userInfo._id}}</li>
@@ -109,6 +109,19 @@ export default {
         this.serviceCount = serviceCount;
         this.userCount = userCount;
       });
+    },
+    logout() {
+      this.$layer.confirm("你是否确定退出登录？", { offset: "10%", title: "退出登录" }, index => {
+        this.$http
+          .get("/user/logout")
+          .then(this.destory)
+          .catch(this.destory);
+        this.$layer.close(index);
+      });
+    },
+    destory() {
+      window.localStorage.removeItem("user");
+      this.$router.replace("/login");
     }
   }
 };
