@@ -7,34 +7,12 @@ import './assets/layer/layer';
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router/index';
-import axios from 'axios';
-import qs from 'qs';
+import $http from './plugins/http';
 Vue.config.productionTip = false;
-
-axios.interceptors.request.use(function (config) {
-  if (typeof config.beforeSend === 'function') {
-    config.beforeSend(config);
-  }
-  if (config.data instanceof Object) {
-    config.data = qs.stringify(config.data);
-  }
-  return config;
-});
-
-axios.interceptors.response.use(function (response) {
-  const { data } = response;
-  if (data.code === 401) {
-    window.localStorage.removeItem('user');
-    router.replace('/login');
-    return new Promise(function () { });
-  } else {
-    return response;
-  }
-});
 
 new Vue({
   beforeCreate() {
-    Vue.prototype.$http = axios;
+    Vue.prototype.$http = $http;
     Vue.prototype.$layer = window.layer;
   },
   render: h => h(App),
