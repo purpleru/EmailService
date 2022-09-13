@@ -1,24 +1,6 @@
 # email-service
+- 这是一个能一键生成邮箱接口服务的项目，生成的接口能用于用户反馈，用户建议，收集信息等操作！
 
-## Project setup
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## 运行项目
+- 拉取本项目，使用 `npm install` 命令安装依赖包。
+- 执行 `npm run serve` 命令进入开发模式。

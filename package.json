@@ -7,6 +7,18 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
+  "description": "这是一个能一键生成邮箱接口服务的项目，生成的接口能用于用户反馈，用户建议，收集信息等操作！",
+  "keywords": [
+    "email-service",
+    "EmailService",
+    "emailservice",
+    "mailbox-service",
+    "MailboxService"
+  ],
+  "author": {
+    "name": "孤独的小丑",
+    "email": "3072953029@qq.com"
+  },
   "dependencies": {
     "axios": "^0.27.2",
     "bootstrap": "^3.4.1",
