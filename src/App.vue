@@ -14,6 +14,11 @@ export default {
 </script>
 
 <style>
+#app{
+  max-width: 700px;
+  margin: 0 auto;
+}
+
 .layui-layer-input {
   outline: none;
 }
