@@ -45,7 +45,7 @@
               <div class="form-group">
                 <label>接口地址 </label>
                 <div class="input-group">
-                  <input v-bind:value="address" type="text" class="form-control" disabled placeholder="接口地址">
+                  <input ref="address" v-bind:value="address" type="text" class="form-control" readonly placeholder="接口地址">
                   <span class="input-group-btn">
                     <a v-on:click="copy" href="javascript:;" class="btn btn-info" type="button">复制地址</a>
                   </span>
@@ -86,7 +86,6 @@
         </div>
       </div>
     </div>
-
     <es-readme ref="readme" v-bind:isShow="false" v-bind:address="address"></es-readme>
   </div>
 </template>
@@ -152,14 +151,19 @@ export default {
       // console.log(data);
     },
     copy() {
-      window.navigator.clipboard
-        .writeText(this.address)
-        .then(() => {
-          this.$layer.msg("复制成功!");
-        })
-        .catch(() => {
-          this.$layer.msg("复制失败!");
-        });
+      if (window.isSecureContext && window.navigator.clipboard) {
+        window.navigator.clipboard
+          .writeText(this.address)
+          .then(() => {
+            this.$layer.msg("复制成功!");
+          })
+          .catch(() => {
+            this.$layer.msg("复制失败!");
+          });
+      } else {
+        this.$refs.address.select();
+        this.$layer.msg("以为你选择了文本，请直接复制即可！", { offset: "5%" });
+      }
     }
   },
   mounted() {
